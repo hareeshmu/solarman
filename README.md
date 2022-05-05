@@ -1,8 +1,10 @@
-# solarman
-
-Script to retrieve current Solar PV data from the Solarman API, and send Power (W) and Energy (kWh) metrics to a MQTT broker, for further use in home automation. Several PV vendors use the Solarman Smart platform for statistics, like sofar inverter with logger.
+# ⚡ solarman
 
 ![example workflow](https://github.com/hareeshmu/solarman/actions/workflows/image.yml/badge.svg)
+[![solarman docker image size](https://img.shields.io/docker/image-size/hareeshmu/solarman?style=flat-square)](https://hub.docker.com/r/hareeshmu/solarman "solarman docker image size")]
+[![Total DockerHub pulls](https://img.shields.io/docker/pulls/hareeshmu/solarman?style=flat-square)](https://hub.docker.com/r/hareeshmu/solarman "Total DockerHub pulls")
+
+Script to retrieve current Solar PV data from the Solarman API, and send Power (W) and Energy (kWh) metrics to a MQTT broker, for further use in home automation. Several PV vendors use the Solarman Smart platform for statistics, like sofar inverter with logger.
 
 ```lang=bash
 usage: run.py [--repeat]
@@ -17,11 +19,55 @@ optional arguments:
 
 You can run this script as a Docker container or in Python 3. Either way a configuration file is required. See the sample `config.sample.json` file in this repository for reference. Also, a Solarman API appid and secret is required, which can be requested via <mailto:service@solarmanpv.com>.
 
+### Using Docker
+
+Supported platforms:
+
+* linux/amd64
+* linux/386
+* linux/arm/v7
+* linux/arm/v6
+* linux/arm64
+
+Docker example to run this script every 5 minutes and providing a config file:
+
+```lang=bash
+cd /opt
+git clone https://github.com/hareeshmu/solarman
+cd solarman
+mv config.sample.json config.json # setup your config
+sudo docker run --name solarman -d --restart unless-stopped -v /YOUR/PATH/HERE/config.json:/config.json hareeshmu/solarman:latest
+```
+
+### Using docker-compose
+
+This `docker-compose.yml` example can be used with docker-compose or podman-compose
+
+```lang=yaml
+version: "3.7"
+services:
+  solarman:
+    image: hareeshmu/solarman:latest
+    container_name: solarman
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /YOUR/PATH/HERE/config.json:/config.json
+    restart: unless-stopped
+```
+
+### Using Python
+
+Run `pip install -r requirements.txt` and start `python3 solarman.py`.
+
+Run `pip install -r requirements.txt` and start `python3 solarman.py --repeat`.
+
 ## MQTT topics
 
 ### Station (Plant)
 
-```
+```lang=bash
 solarmanpv/station/batteryPower
 solarmanpv/station/batterySoc
 solarmanpv/station/chargePower
@@ -37,7 +83,7 @@ solarmanpv/station/wirePower
 
 ### Inverter
 
-```
+```lang=bash
 solarmanpv/inverter/deviceId
 solarmanpv/inverter/deviceSn
 solarmanpv/inverter/deviceState
@@ -46,8 +92,9 @@ solarmanpv/inverter/deviceType
 solarmanpv/inverter/attributes # contains all inverter datalist entries.
 ```
 
-#### Attributes: 
-```
+#### Attributes:
+
+```lang=bash
 SN: XXXXXXXXXX
 Device_Type: 4
 Production_Compliance_Type: 0
@@ -109,7 +156,7 @@ Start-up Self-checking Time: 60
 
 ### Logger (Collector)
 
-```
+```lang=bash
 solarmanpv/logger/deviceId
 solarmanpv/logger/deviceSn
 solarmanpv/logger/deviceState
@@ -119,7 +166,8 @@ solarmanpv/logger/attributes # contains all logger datalist entries
 ```
 
 #### Attributes
-```
+
+```lang=bash
 Embedded_Device_SN: XXXXXXXXXX
 Module_Version_No: MW3_15_5406_1.35
 Extended_System_Version: V1.1.00.07
@@ -138,7 +186,8 @@ Method_Of_Protocol_Upgrade: 255
 ```
 
 ## Home Assistant
-```
+
+```lang=bash
 sensor:
   - platform: mqtt
     name: "solarmanpv_station_generationPower"
@@ -149,7 +198,7 @@ sensor:
 
 Repeat for every station topic needed. 
 
-```
+```lang=bash
 sensor:
   - platform: mqtt
     name: "solarmanpv_inverter"
@@ -189,7 +238,7 @@ sensor:
 
 ### Templates
 
-```
+```lang=bash
 template:
   - sensor:
     - name: solarmanpv_inverter_dc_voltage_pv1
@@ -251,46 +300,3 @@ template:
       state_class: measurement
 
 ```
-
-### Using Docker
-Supported platforms: 
-
-* linux/amd64
-* linux/386
-* linux/arm/v7
-* linux/arm/v6
-* linux/arm64
-
-Docker example to run this script every 5 minutes and providing a config file:
-
-```lang=bash
-cd /opt
-git clone https://github.com/hareeshmu/solarman
-cd solarman
-mv config.sample.json config.json # setup your config
-sudo docker run --name solarman -d --restart unless-stopped -v /YOUR/PATH/HERE/config.json:/config.json hareeshmu/solarman:latest
-```
-
-### Using docker-compose
-
-This `docker-compose.yml` example can be used with docker-compose or podman-compose
-
-```lang=yaml
-version: "3.7"
-services:
-  solarman:
-    image: hareeshmu/solarman:latest
-    container_name: solarman
-    environment:
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - /YOUR/PATH/HERE/config.json:/config.json
-    restart: unless-stopped
-```
-
-### Using Python
-
-Run `pip install -r requirements.txt` and start `python3 solarman.py`.
-
-Run `pip install -r requirements.txt` and start `python3 solarman.py --repeat`.
