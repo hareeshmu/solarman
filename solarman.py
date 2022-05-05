@@ -6,7 +6,7 @@ __version__ = "1.0.0"
 
 import http.client
 import json
-import logging
+import hashlib
 import os
 import sys
 import time
@@ -40,7 +40,7 @@ def time_stamp():
     return time.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def get_token(url, appid, secret, username, passhash, orgId=None):
+def get_token(url, appid, secret, username, password, orgId=None):
     """
     Get a token from the API
     :return: access_token
@@ -48,8 +48,11 @@ def get_token(url, appid, secret, username, passhash, orgId=None):
     print(f"{time_stamp()}: 🕵️  Getting token from: {url}")
 
     try:
+        passhash = hashlib.sha256(password.encode())
+        passhash = passhash.hexdigest()
         conn = http.client.HTTPSConnection(url)
         if orgId:
+            print(f"{time_stamp()}: 🕵️  Using organization ID: {orgId}")
             payload = json.dumps({"appSecret": secret, "email": username, "password": passhash, "orgId": orgId})
         else:
             payload = json.dumps({"appSecret": secret, "email": username, "password": passhash})
@@ -137,7 +140,7 @@ def run(config):
     :return:
     """
 
-    token = get_token(config["url"], config["appid"], config["secret"], config["username"], config["passhash"], config["orgId"])
+    token = get_token(config["url"], config["appid"], config["secret"], config["username"], config["password"], config["orgId"])
 
     if token is None:
         print(f"{time_stamp()}: 😡 Unable to get token")
