@@ -1,0 +1,21 @@
+{
+  "name": "Solarman",
+  "url": "api.solarmanpv.com",
+  "appid": "1234567890",
+  "secret": "234abcdefg123456",
+  "username": "someuser@example.com",
+  "passhash": "Hash the password using https://emn178.github.io/online-tools/sha256.html",
+  "orgId": 12345,
+  "stationId": 1234567,
+  "inverterId": "SA12345MB12345",
+  "loggerId": 789543245,
+  "interval": 300,
+  "debug": true,
+  "mqtt": {
+    "broker": "10.10.10.10",
+    "port": 1883,
+    "topic": "solarmanpv",
+    "username": "mqtt_user",
+    "password": "mqtt_password"
+  }
+}

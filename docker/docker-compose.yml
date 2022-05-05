@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  solarman:
+    image: hareeshmu/solarman:latest
+    container_name: solarman
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /YOUR/PATH/HERE/config.json:/config.json
+    restart: unless-stopped

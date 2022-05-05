@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solarman
+spec:
+  selector:
+    matchLabels:
+      app: solarman
+  template:
+    metadata:
+      labels:
+        app: solarman
+    spec:
+      containers:
+        - name: solarman
+          image: hareeshmu/solarman:latest
+          resources:
+            limits:
+              memory: "32Mi"
+              cpu: "50m"
+          env:
+            - name: CONFIG_PATH
+              value: "/etc/solarman/"
+          volumeMounts:
+            - mountPath: "/etc/solarman"
+              name: config-solarman
+              readOnly: true
+      volumes:
+        - name: config-solarman
+          secret:
+            secretName: config-solarman
