@@ -2,6 +2,8 @@
 
 Script to retrieve current Solar PV data from the Solarman API, and send Power (W) and Energy (kWh) metrics to a MQTT broker, for further use in home automation. Several PV vendors use the Solarman Smart platform for statistics, like sofar inverter with logger.
 
+![example workflow](https://github.com/hareeshmu/solarman/actions/workflows/image.yml/badge.svg)
+
 ```lang=bash
 usage: run.py [--repeat]
 
