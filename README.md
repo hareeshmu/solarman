@@ -92,7 +92,7 @@ solarmanpv/inverter/deviceType
 solarmanpv/inverter/attributes # contains all inverter datalist entries.
 ```
 
-#### Attributes:
+#### Inverter Attributes
 
 ```lang=bash
 SN: XXXXXXXXXX
@@ -165,7 +165,7 @@ solarmanpv/logger/deviceType
 solarmanpv/logger/attributes # contains all logger datalist entries
 ```
 
-#### Attributes
+#### Logger Attributes
 
 ```lang=bash
 Embedded_Device_SN: XXXXXXXXXX
@@ -196,7 +196,7 @@ sensor:
     state_class: measurement
 ```
 
-Repeat for every station topic needed. 
+Repeat for every station topic needed.
 
 ```lang=bash
 sensor:
