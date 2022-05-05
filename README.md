@@ -1,8 +1,6 @@
 # ⚡ solarman
 
-![example workflow](https://github.com/hareeshmu/solarman/actions/workflows/image.yml/badge.svg)
-[![solarman docker image size](https://img.shields.io/docker/image-size/hareeshmu/solarman?style=flat-square)](https://hub.docker.com/r/hareeshmu/solarman "solarman docker image size")]
-[![Total DockerHub pulls](https://img.shields.io/docker/pulls/hareeshmu/solarman?style=flat-square)](https://hub.docker.com/r/hareeshmu/solarman "Total DockerHub pulls")
+![Solarman Workflow](https://github.com/hareeshmu/solarman/actions/workflows/image.yml/badge.svg) | [![solarman docker image size](https://img.shields.io/docker/image-size/hareeshmu/solarman?style=flat-square)](https://hub.docker.com/r/hareeshmu/solarman "solarman docker image size") | [![Total DockerHub pulls](https://img.shields.io/docker/pulls/hareeshmu/solarman?style=flat-square)](https://hub.docker.com/r/hareeshmu/solarman "Total DockerHub pulls")
 
 Script to retrieve current Solar PV data from the Solarman API, and send Power (W) and Energy (kWh) metrics to a MQTT broker, for further use in home automation. Several PV vendors use the Solarman Smart platform for statistics, like sofar inverter with logger.
 
